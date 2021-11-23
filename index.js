@@ -13,9 +13,9 @@ module.exports=class Manager{
                     let dataOb = {
                         id:pass(),
                         name: clase.name,
-                        status: clase.status,
-                        hors: clase.hors,
-                        alumnos: clase.alumnos
+                        descripcion: clase.descripcion,
+                        precio: clase.precio,
+                        imagen:clase.imagen
                     }
 
                     obJson.push(dataOb);
@@ -30,9 +30,9 @@ module.exports=class Manager{
                 let dataOb = {
                     id: pass(),
                     name: clase.name,
-                    status: clase.status,
-                    hors: clase.hors,
-                    alumnos: clase.alumnos
+                    descripcion: clase.descripcion,
+                    precio: clase.precio,
+                    imagen:clase.imagen
                 }
                 try{
                     await fs.promises.writeFile('nuevo.json',JSON.stringify([dataOb],null,2))
@@ -47,9 +47,9 @@ module.exports=class Manager{
                 let data = await fs.promises.readFile("nuevo.json", "utf-8")
                 if(data!=0){
                     let obje = JSON.parse(data)
-                    return {obje}
+                    return {status:"success", message:obje}
                 }else{
-                    return "El archivo esta vacio"
+                    return {status:"error", message:obje}
                 }
             }catch (e){
                 return {e}
@@ -122,17 +122,15 @@ module.exports=class Manager{
 
 /*let nuevo=new Manager()
 let data={
-
-    name:"pp",
-    status:"Start",
-    hors:[],
-    alumnos:[]
+    name: "Ibiza",
+    descripcion: "Color azul",
+    precio: 10000
 }*/
 /*nuevo.save(data).then(res=>{
     console.log(res.message)
 })*/
 /*nuevo.getAll().then(res=>{
-    console.log(res)
+    console.log(res.message)
 })*/
 /*nuevo.getByid("21-0").then(res=>{
     console.log(res.message)

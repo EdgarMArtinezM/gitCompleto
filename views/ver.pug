@@ -1,0 +1,25 @@
+
+-let exist=info.length>0
+html 
+    head 
+        title="Ver articulos"
+    body
+        if exist
+            table
+                tr 
+                    th="id"
+                    th="name"
+                    th="descripcion" 
+                    th="precio"
+                    th="Imagen"
+                each val in info
+                    tr 
+                        th=val.id
+                        th=val.name 
+                        th=val.descripcion 
+                        th=val.precio
+                        th
+                            img(src=val.imagen, alt="")
+                            
+        else 
+            h3="No hay nada"
