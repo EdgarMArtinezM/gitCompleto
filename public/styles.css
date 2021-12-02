@@ -1,0 +1,18 @@
+body{
+    margin: 20px;
+    display: flex;
+    justify-content: left;
+}
+.hola{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+.card.espacio{
+    margin-right: 6px;
+    margin-top: 3px;
+}
+.btn{
+    height: 40px;
+    margin-top: 20px;
+}

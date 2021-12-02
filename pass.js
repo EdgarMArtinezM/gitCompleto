@@ -1,12 +1,13 @@
-const fs=require("fs")
-const moment=require("moment")
+import fs from 'fs';
+import moment from 'moment';
+import __dirname from './utils.js';
 let year=moment().format("YY")
 let yearInt=parseInt(year)
 
-module.exports=function makeId(){
-//function makeId() {
+function makeId(){
     try{
-        let data=fs.readFileSync("nuevo.json","utf-8")
+        let data=fs.readFileSync(__dirname+"/nuevo.json","utf-8")
+        
         let info = JSON.parse(data)
         if (info != 0) {
             let ultimo = info[info.length - 1]
@@ -17,11 +18,12 @@ module.exports=function makeId(){
             return `${year}-${0}`
         }
     }catch (e) {
-        return `${year}-${0}`
+        //return `${year}-${0}`
     }
 
 }
 
+export default makeId
 //console.log(makeId())
 
 

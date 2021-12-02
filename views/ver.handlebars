@@ -1,0 +1,15 @@
+<input type="button btn" class="btn btn-dark" onclick="location.href='/'" value="Registrar una mascota">
+<div class="hola">
+    {{#each info}}
+
+    <div class="card espacio" style="width: 18rem;">
+    <img src={{this.imagen}} class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Nombre: {{this.name}}</h5>
+            <p class="card-text">Descripcion: {{this.descripcion}}</p>
+            <p class="card-text">Precio: {{this.precio}}</p>
+            {{!-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+        </div>
+    </div>
+    {{/each}}
+</div>

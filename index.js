@@ -1,8 +1,9 @@
-const fs=require("fs")
-const pass=require("./pass")
+import fs from 'fs';
+import pass from './pass.js'
 
 
-module.exports=class Manager{
+ 
+class Manager{
         async save(clase){
             try {
                 let data = await fs.promises.readFile("nuevo.json", "utf-8")
@@ -60,7 +61,7 @@ module.exports=class Manager{
             let obj=JSON.parse(data)
             let nuevo=obj.filter(res=>res.id===id)
             if(nuevo!=0){
-                return {status:"Encontrado",message:"Usuario encontrado: " + JSON.stringify(nuevo,null,2)}
+                return {status:"succes",message:"Usuario encontrado: " + JSON.stringify(nuevo,null,2)}
             }else{
                 return {status:"error",message:"No hay ningun registro"}
             }
@@ -119,7 +120,7 @@ module.exports=class Manager{
 
 
 }
-
+export default Manager
 /*let nuevo=new Manager()
 let data={
     name: "Ibiza",

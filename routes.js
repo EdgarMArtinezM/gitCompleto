@@ -1,31 +1,32 @@
-const { Router } = require("express")
-const express=require("express")
+import express from 'express';
+import Manager from './index.js'
+import multer from 'multer';
+import __dirname from './utils.js';
 const router=express.Router()
-const classObj=require("./index")
-const ini=new classObj()
-const multer=require("multer")
+const ini=new Manager()
 
-const storage=multer.diskStorage({
-    destination: function (req,file,cb){
-        cb(null,'public')
+const storage = multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null,__dirname+'/public/images');
     },
-    filename: function (req,file,cb){
+    filename:(req,file,cb)=>{
         console.log(file)
-        cb(null,file.originalname)
+        cb(null,Date.now()+file.originalname);
     }
 })
 
 
 const upload= multer({storage:storage})
 
-router.get('/view/getAll',(req,res)=>{
 
+router.get('/view/getAll',(req,res)=>{
+    
     ini.getAll().then(ress=>{
         let obj=ress.message
         let prepara={
             info: obj
         }
-        res.render('ver.pug',prepara)
+        res.render('ver.handlebars',prepara)
     })
     
 })
@@ -42,7 +43,7 @@ router.get("/getAll",(req,res)=>{
  })
 router.get("/:id",(req,res)=>{
     ini.getByid(req.params.id).then(response=>{
-        res.send(response.message)
+        res.send(response)
     })
  })
  router.post("/",(req,res)=>{
@@ -53,10 +54,16 @@ router.get("/:id",(req,res)=>{
 
 router.post("/guardar",upload.single('imagen'),(req,res)=>{
     let dato=req.body
-    let image="http://localhost:8000/imagenes/"+req.file.filename
+    let image="http://localhost:8080/images/"+req.file.filename
     dato.imagen=image
     ini.save(dato).then(ress=>{
         res.send(ress)
+        if(result.status==="success"){
+            ini.getAll().then(result=>{
+                console.log(result);
+                io.emit('prod',result);
+            })
+        }
     })
 })
 
@@ -72,4 +79,4 @@ router.put('/:id',(req,res)=>{
     })
 })
 
-module.exports=router
+export default router;

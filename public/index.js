@@ -1,4 +1,18 @@
-console.log("Hola")
+//sockets
+const socket=io()
+socket.on('prod',data=>{
+let prod = data.message;
+    fetch('templates/prodTable.handlebars').then(string=>string.text()).then(template=>{
+        const processedTemplate = Handlebars.compile(template);
+        const templateObject={
+            prod:prod
+        }
+        const html = processedTemplate(templateObject);
+        let div = document.getElementById('petTable');
+        div.innerHTML=html;
+    })
+})
+///////////////
 document.addEventListener('submit',function(e){
     e.preventDefault()
     let form=document.getElementById("form")
@@ -13,7 +27,7 @@ document.addEventListener('submit',function(e){
         //      precio:precio,
         //      imagen:imagen
         // }
-        fetch("http://localhost:8000/api/productos/guardar",{
+        fetch("http://localhost:8080/api/guardar",{
              method: 'POST',
              body: data, 
             //  headers:{
@@ -25,7 +39,7 @@ document.addEventListener('submit',function(e){
         })
         .then((json)=>{
              console.log(json)
-             location.href='http://localhost:8000/api/productos/view/guardar'
+             location.href='http://localhost:8080/'
         })
 })
 
