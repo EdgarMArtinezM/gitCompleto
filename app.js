@@ -4,7 +4,7 @@ import cors from 'cors'
 import __dirname from './utils.js';
 import {engine} from 'express-handlebars';
 import {Server} from 'socket.io';
-import Manager from './index.js'
+import Manager from './productManager.js'
 const ini=new Manager()
 
 
@@ -32,7 +32,7 @@ app.use('/api',router)
 //socket
 io.on('connection', async socket=>{
     console.log(`El socket ${socket.id} se ha conectado`)
-    let prod = await ini.getAll();
+    let prod = await ini.getusers();
     socket.emit('prod',prod);
 
 })

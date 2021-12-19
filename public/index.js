@@ -1,7 +1,8 @@
 //sockets
 const socket=io()
 socket.on('prod',data=>{
-let prod = data.message;
+    console.log(data)
+let prod = data.payload;
     fetch('templates/prodTable.handlebars').then(string=>string.text()).then(template=>{
         const processedTemplate = Handlebars.compile(template);
         const templateObject={
@@ -15,18 +16,19 @@ let prod = data.message;
 ///////////////
 document.addEventListener('submit',function(e){
     e.preventDefault()
-    let form=document.getElementById("form")
-        let data=new FormData(form)
-        //let name=data.get("name")
-        // let descripcion=data.get("descripcion")
-        // let precio=data.get("precio")
-        // let imagen=data.get('imagen')
-        // let obj={
-        //      name:name,
-        //      descripcion:descripcion,
-        //      precio:precio,
-        //      imagen:imagen
-        // }
+    let formulario=document.getElementById("form")
+        let data=new FormData(formulario)
+        let name=data.get("name")
+        let descripcion=data.get("description")
+        let precio=data.get("price")
+        let imagen=data.get('image')
+        let obj={
+             name:name,
+             descripcion:descripcion,
+             precio:precio,
+             imagen:imagen.name
+        }
+        console.log(obj)
         fetch("http://localhost:8080/api/guardar",{
              method: 'POST',
              body: data, 

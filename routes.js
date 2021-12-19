@@ -1,7 +1,7 @@
 import express from 'express';
-import Manager from './index.js'
 import multer from 'multer';
 import __dirname from './utils.js';
+import Manager from './productManager.js'
 const router=express.Router()
 const ini=new Manager()
 
@@ -21,8 +21,8 @@ const upload= multer({storage:storage})
 
 router.get('/view/getAll',(req,res)=>{
     
-    ini.getAll().then(ress=>{
-        let obj=ress.message
+    ini.getusers().then(ress=>{
+        let obj=ress.payload
         let prepara={
             info: obj
         }
@@ -37,38 +37,38 @@ router.get('/view/guardar',(req,res)=>{
 
 
 router.get("/getAll",(req,res)=>{
-    ini.getAll().then(ress=>{
+    ini.getusers().then(ress=>{
         res.send(ress)
     })
  })
 router.get("/:id",(req,res)=>{
-    ini.getByid(req.params.id).then(response=>{
+    let id=Number(req.params.id)
+    ini.getByid(id).then(response=>{
         res.send(response)
     })
  })
  router.post("/",(req,res)=>{
-    ini.save(req.body).then(ress=>{
+    ini.register(req.body).then(ress=>{
         res.send(ress.message)
     })
 })
 
-router.post("/guardar",upload.single('imagen'),(req,res)=>{
+router.post("/guardar",upload.single('image'),(req,res)=>{
     let dato=req.body
     let image="http://localhost:8080/images/"+req.file.filename
-    dato.imagen=image
-    ini.save(dato).then(ress=>{
+    dato.image=image
+    ini.register(dato).then(ress=>{
         res.send(ress)
-        if(result.status==="success"){
-            ini.getAll().then(result=>{
-                console.log(result);
-                io.emit('prod',result);
+        if(ress.status==="succes"){
+            ini.getusers().then(result=>{
+                io.emit('prod',result.payload);
             })
         }
     })
 })
 
 router.delete("/:id",(req,res)=>{
-    ini.deleteId(req.params.id).then(ress=>{
+    ini.delete(req.params.id).then(ress=>{
         res.send(ress.message)
     })
 })
